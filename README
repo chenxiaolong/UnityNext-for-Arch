@@ -1,0 +1,24 @@
+Source code/PPA: https://launchpad.net/~mir-team/+archive/staging
+
+Add to /etc/pacman.conf above all other repos (repo from: https://wiki.archlinux.org/index.php/AMD_Catalyst#Xorg_repositories):
+
+--------------------------------------------------------------------------------
+[xorg113]
+SigLevel = Optional TrustAll
+Server = http://catalyst.wirephire.com/repo/xorg113/$arch
+--------------------------------------------------------------------------------
+
+Downgrade to Xorg 1.13.*
+
+--------------------------------------------------------------------------------
+sudo pacman -Sy $(pacman -Q | grep -E '(xorg-server|xf86-input|xf86-video)(-)?.*' | cut -d' ' -f1)
+--------------------------------------------------------------------------------
+
+Install the packages
+
+* mesa-mir
+* gflags
+* mir-bzr
+* glmark2-mir-bzr
+* runbench-bzr
+* xorg-server-mir
