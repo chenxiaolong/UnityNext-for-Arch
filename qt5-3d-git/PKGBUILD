@@ -1,0 +1,39 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+# Original Maintainer: Sergio Correia <sergio.correia@uece.net>
+
+pkgname=qt5-3d-git
+pkgver=731.0158ce7
+pkgrel=1
+pkgdesc="A cross-platform application and UI framework (QtV8)"
+groups=('unitynext')
+arch=('i686' 'x86_64')
+url="https://qt.gitorious.org/qt/qt3d"
+license=('LGPL')
+depends=('qt5-declarative')
+makedepends=('git')
+options=('!libtool')
+source=('qt3d::git+git://gitorious.org/qt/qt3d.git'
+        'qt3d-undefined-reference-workaround.patch')
+sha512sums=('SKIP'
+            '242b900ebd58bd8641932db22574a47a16b27093810be2722b821347ae0542c9a370d9a8afb0545f9da7b3bf23d91d67907e542788f3c3083f78b1d94c39fc82')
+
+pkgver() {
+  cd qt3d
+  echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+}
+
+prepare() {
+  cd "${srcdir}/qt3d"
+  patch -p1 -i "${srcdir}/qt3d-undefined-reference-workaround.patch"
+}
+
+build() {
+  cd "${srcdir}/qt3d"
+  qmake-qt5
+  make
+}
+
+package() {
+  cd "${srcdir}/qt3d"
+  make INSTALL_ROOT="${pkgdir}" install
+}
