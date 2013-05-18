@@ -1,0 +1,36 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+# Original Maintainer: Sergio Correia <sergio.correia@uece.net>
+
+pkgname=qt5-location-git
+pkgver=1315.781b580
+pkgrel=1
+pkgdesc="A cross-platform application and UI framework (QtLocation)"
+groups=('unitynext')
+arch=('i686' 'x86_64')
+url="https://qt.gitorious.org/qt/qtlocation"
+license=('LGPL')
+depends=('qt5-base'
+         'qt5-declarative'
+         'qt5-jsbackend')
+# From git
+depends+=('qt5-3d-git' 'qt5-jsondb-git')
+makedepends=('git')
+options=('!libtool')
+source=('qtlocation::git+git://gitorious.org/qt/qtlocation.git')
+sha512sums=('SKIP')
+
+pkgver() {
+  cd qtlocation
+  echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+}
+
+build() {
+  cd "${srcdir}/qtlocation"
+  qmake-qt5
+  make
+}
+
+package() {
+  cd "${srcdir}/qtlocation"
+  make INSTALL_ROOT="${pkgdir}" install
+}
