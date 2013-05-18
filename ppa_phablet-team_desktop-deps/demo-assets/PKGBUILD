@@ -1,0 +1,36 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+
+_ubuntu_ver=0.23~raring11
+
+pkgname=demo-assets
+pkgver=${_ubuntu_ver/\~/.}
+pkgrel=1
+pkgdesc="Demo Assets for Unity 8/Next/Phablet"
+arch=('any')
+url="https://code.launchpad.net/~phablet-team/demo-assets/trunk"
+license=('GPL')
+groups=('unitynext')
+depends=('unity-lens-mock')
+source=("https://launchpad.net/~phablet-team/+archive/desktop-deps/+files/demo-assets_${_ubuntu_ver}.tar.gz")
+sha512sums=('e94c52ca1b24245c0b9e602bd1e43f27a0824244e98d93aef547f68cd5a7fe769a6cb32c41e2fda6e6380e2408ae90b9b287af4359f3d9ee67c254402050b650')
+
+package() {
+  cd "$srcdir/${pkgname}-${_ubuntu_ver}"
+
+  install -dm755 "${pkgdir}/usr/bin/"
+  install -m755 usr/bin/* "${pkgdir}/usr/bin/"
+
+  install -dm755 "${pkgdir}/usr/share/dbus-1/services/"
+  install -m644 services/* "${pkgdir}/usr/share/dbus-1/services/"
+
+  install -dm755 "${pkgdir}/usr/share/unity/lenses/"
+  cp -a lenses/* "${pkgdir}/usr/share/unity/lenses/"
+
+  install -dm755 "${pkgdir}/usr/share/demo-assets/"
+  install -m644 pictures.tgz "${pkgdir}/usr/share/demo-assets/"
+
+  cp -a contacts-data/ "${pkgdir}/usr/share/demo-assets/"
+  cp -a telephony-app/ "${pkgdir}/usr/share/demo-assets/"
+  cp -a shell/         "${pkgdir}/usr/share/demo-assets/"
+  cp -a videos/        "${pkgdir}/usr/share/demo-assets/"
+}
