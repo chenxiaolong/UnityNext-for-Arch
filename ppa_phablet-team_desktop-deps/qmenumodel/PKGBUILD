@@ -1,0 +1,35 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+
+_ubuntu_ver=0.2.6~raring1
+
+pkgname=qmenumodel
+pkgver=${_ubuntu_ver/\~/.}
+pkgrel=1
+pkgdesc="Qt binding for GMenuModel"
+arch=('i686' 'x86_64')
+url="https://launchpad.net/qmenumodel"
+license=('GPL')
+groups=('unitynext')
+depends=('glib2' 'libgl' 'mesa' 'python' 'python-dbus' 'python-gobject' 'qt5-base' 'qt5-declarative')
+makedepends=('cmake')
+checkdepends=('dbus-test-runner')
+source=("https://launchpad.net/~phablet-team/+archive/desktop-deps/+files/qmenumodel_${_ubuntu_ver}.tar.gz")
+sha512sums=('92f08f6e62fe13f047ae07ed31fe3344991e9e3901207eeffe5436403a3d673dffdae359a8eeb473bfc2d8390a0b66488d99c515bd0a522b8c9f27124164ebac')
+
+build() {
+  cd "${srcdir}/${pkgname}-${_ubuntu_ver}"
+
+  mkdir build && cd build
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=/usr/lib
+  make
+}
+
+check() {
+  cd "${srcdir}/${pkgname}-${_ubuntu_ver}/build"
+  ctest
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${_ubuntu_ver}/build"
+  make DESTDIR="${pkgdir}/" install
+}
