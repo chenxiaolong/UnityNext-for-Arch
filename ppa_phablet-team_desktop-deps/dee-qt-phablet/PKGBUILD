@@ -1,0 +1,59 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+
+_ubuntu_ver=3.0phablet1~raring1
+
+pkgname=dee-qt-phablet
+pkgver=${_ubuntu_ver/\~/.}
+pkgrel=1
+pkgdesc="Phablet version of the Qt4 and Qt5 bindings for dee"
+arch=('i686' 'x86_64')
+url="https://code.launchpad.net/~unity-team/dee-qt/phablet"
+license=('GPL')
+groups=('unitynext')
+depends=('dee' 'qt4' 'qt5-base' 'qt5-declarative')
+makedepends=('cmake')
+checkdepends=('dbus-test-runner')
+provides=("dee-qt=${pkgver}")
+conflicts=('dee-qt' 'libqtdee')
+source=("https://launchpad.net/~phablet-team/+archive/desktop-deps/+files/dee-qt_${_ubuntu_ver}.orig.tar.gz")
+sha512sums=('b934af0e3941921bad11755a1fb99c2bb5ea31c256cf59f18dea853768a0d3be3fdc1d15eedf6a9fd880bb94b85b3a99b5653fef0b3aa6450ff51ad2e16fce5f')
+
+build() {
+  cd "${srcdir}/dee-qt-${_ubuntu_ver}"
+
+  mkdir build-qt4 build-qt5
+
+  pushd build-qt4
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DWITHQT5=0
+  make
+  popd
+
+  pushd build-qt5
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DWITHQT5=1
+  make
+  popd
+}
+
+check() {
+  cd "${srcdir}/dee-qt-${_ubuntu_ver}"
+
+  pushd build-qt4
+  ctest
+  popd
+
+  pushd build-qt5
+  ctest
+  popd
+}
+
+package() {
+  cd "${srcdir}/dee-qt-${_ubuntu_ver}"
+
+  pushd build-qt4
+  make DESTDIR="${pkgdir}/" install
+  popd
+
+  pushd build-qt5
+  make DESTDIR="${pkgdir}/" install
+  popd
+}
