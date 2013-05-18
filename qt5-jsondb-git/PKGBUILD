@@ -1,0 +1,33 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+# Original Maintainer: Sergio Correia <sergio.correia@uece.net>
+# Contributor: Anselmo L. S. Melo <anselmolsm@gmail.com>
+
+pkgname=qt5-jsondb-git
+pkgver=959.27a2b5d
+pkgrel=1
+pkgdesc="A cross-platform application and UI framework (QtJsonDb)"
+groups=('unitynext')
+arch=('i686' 'x86_64')
+url="https://qt.gitorious.org/qt/qtjsondb"
+license=('LGPL')
+depends=('libedit' 'qt5-base' 'qt5-declarative')
+makedepends=('git')
+options=('!libtool')
+source=('qtjsondb::git+git://gitorious.org/qt/qtjsondb.git')
+sha512sums=('SKIP')
+
+pkgver() {
+  cd qtjsondb
+  echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+}
+
+build() {
+  cd "${srcdir}/qtjsondb"
+  qmake-qt5
+  make
+}
+
+package() {
+  cd "${srcdir}/qtjsondb"
+  make INSTALL_ROOT="${pkgdir}" install
+}
