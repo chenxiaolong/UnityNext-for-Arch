@@ -24,3 +24,4 @@ Install the packages
 * xorg-server-mir
 * xf86-video-intel-mir-bzr
 * xf86-video-nouveau-mir-bzr
+* tslib
