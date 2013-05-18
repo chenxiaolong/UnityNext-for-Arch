@@ -25,3 +25,4 @@ Install the packages
 * xf86-video-intel-mir-bzr
 * xf86-video-nouveau-mir-bzr
 * tslib
+* sdl2-mir
