@@ -1,0 +1,29 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+
+pkgname=ubuntu-ui-toolkit
+pkgver=0.1.43
+pkgrel=1
+pkgdesc="Ubuntu's Qt UI Components"
+arch=('i686' 'x86_64')
+url="https://launchpad.net/ubuntu-ui-toolkit"
+license=('LGPL')
+groups=('unitynext')
+depends=('glib2' 'mesa' 'qt5-base' 'qt5-declarative' 'qt5-graphicaleffects' 'qt5-jsbackend' 'qt5-svg' 'qt5-tools')
+source=("https://launchpad.net/ubuntu/+archive/primary/+files/ubuntu-ui-toolkit_${pkgver}.tar.gz")
+sha512sums=('f4148479221ec9cb37ad348dcfe0d9b16d1156c7557dd1fb79a7eddda6c46a78c777f1bf78c0ab4d03c06016c0e2f066c73869866ec061e1d1ddd57ca64842db')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  qmake .
+  make
+}
+
+check() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make INSTALL_ROOT="${pkgdir}/" install
+}
