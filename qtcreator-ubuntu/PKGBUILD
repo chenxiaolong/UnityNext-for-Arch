@@ -1,0 +1,79 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+
+# Based on the official Arch Linux package
+
+pkgname=qtcreator-ubuntu
+pkgver=2.7.0
+_ubuntu_rel=0ubuntu3
+pkgrel=1
+pkgdesc="Lightweight, cross-platform integrated development environment"
+arch=('i686' 'x86_64')
+url="http://qt-project.org/"
+license=('LGPL')
+groups=('unitynext')
+depends=('qt5-quick1' 'qt5-tools' 'botan')
+provides=("qtcreator=${pkgver}")
+conflicts=('qtcreator')
+optdepends=('qt5-doc: for the integrated Qt documentation'
+            'gdb: for the debugger'
+            'cmake: for cmake project support'
+            'openssh-askpass: for ssh support'
+            'git: for git support'
+            'mercurial: for mercurial support'
+            'bzr: for bazaar support'
+            'valgrind: for analyze support')
+options=('docs')
+install=qtcreator.install
+source=("https://launchpad.net/ubuntu/+archive/primary/+files/qtcreator_${pkgver}-${_ubuntu_rel}.debian.tar.gz"
+        "https://launchpad.net/ubuntu/+archive/primary/+files/qtcreator_${pkgver}.orig.tar.gz"
+        'qtcreator.desktop'
+        '0001_Fix_check_for_declarative_with_Qt_5.0.2.patch')
+sha512sums=('26dce9c6a4cb7735a7a8af9d4d090df228f0e2468637bfa069240a8ed8416e14df63231cdd6f6ad068862daef18921d69fc7ddecaf867a9e1515e90d7adec620'
+            'bb4b941c8acb3572450c3eb8a70807480cbe1f23b1eb7150fcbac5b766c5a109567822a3f2644164f894f736a2d8fcc972d013a9f475ae72f97609afc98b89fc'
+            '248f5ab7a8be151677ae87c78b039d09b177020acf41af1f8606cdda84e49f5d881046742a57d4acf33382e484687936a2f3bf876c72812e9fe84c9a0eba7670'
+            'fd616e72c18eee8f8d93c52607c3a8a49471394ad7c03bd862443ea4abac03cf45d8debad2b7ca847ce19193e30cf93201ec68ae7634655e47472235a50cbfc7')
+
+prepare() {
+  cd "${srcdir}/qt-creator-${pkgver}-src/"
+
+  # https://codereview.qt-project.org/#change,52290
+  patch -p1 -i "${srcdir}/0001_Fix_check_for_declarative_with_Qt_5.0.2.patch"
+
+  # Apply Ubuntu's patches
+
+  # Disable patches
+    # We don't use Debian's x-terminal-emulator
+      sed -i '/02_use_x-terminal-emulator.diff/d' "${srcdir}/debian/patches/series"
+
+  for i in $(grep -v '#' "${srcdir}/debian/patches/series"); do
+    patch -p1 -i "${srcdir}/debian/patches/${i}"
+  done
+
+  tar zxvf "${srcdir}/debian/qtcreator-plugin-ubuntu-images.tar.gz"
+
+  rm src/libs/3rdparty/botan/botan.{cpp,h}
+}
+
+build() {
+  cd "${srcdir}/qt-creator-${pkgver}-src/"
+  mkdir build && cd build
+  #export IDE_LIBRARY_BASENAME=lib IDE_PACKAGE_MODE=1 USE_SYSTEM_BOTAN=1
+  qmake-qt5 .. IDE_LIBRARY_BASENAME=lib IDE_PACKAGE_MODE=1 USE_SYSTEM_BOTAN=1
+  make -j1
+}
+
+check() {
+  cd "${srcdir}/qt-creator-${pkgver}-src/build/"
+  make check
+}
+
+package() {
+  cd "${srcdir}/qt-creator-${pkgver}-src/build/"
+  make INSTALL_ROOT="${pkgdir}/usr/" install
+  make INSTALL_ROOT="${pkgdir}/usr/" install_docs
+
+  install -Dm644 "${srcdir}/qtcreator.desktop" \
+    "${pkgdir}/usr/share/applications/qtcreator.desktop"
+  install -Dm644 ../LGPL_EXCEPTION.TXT \
+    "${pkgdir}/usr/share/licenses/qtcreator/LGPL_EXCEPTION.TXT"
+}

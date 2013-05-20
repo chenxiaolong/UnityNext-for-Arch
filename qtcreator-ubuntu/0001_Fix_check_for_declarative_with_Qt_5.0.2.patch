@@ -1,0 +1,20 @@
+--- a/src/plugins/plugins.pro
++++ c/src/plugins/plugins.pro
+@@ -63,7 +63,6 @@
+ 
+ include(../../qtcreator.pri)
+ 
+-contains(QT_CONFIG, declarative) {
+     SUBDIRS += \
+             plugin_qmlprojectmanager \
+             plugin_qmlprofiler
+@@ -80,9 +79,6 @@
+             warning("To enable it, pass 'QT_PRIVATE_HEADERS=$QTDIR/include' to qmake, where $QTDIR is the source directory of qt.")
+         }
+     }
+-} else {
+-    warning("QmlProjectManager, QmlProfiler and QmlDesigner plugins have been disabled: The plugins require QtDeclarative");
+-}
+ 
+ include (debugger/lldb/guest/qtcreator-lldb.pri)
+ 
