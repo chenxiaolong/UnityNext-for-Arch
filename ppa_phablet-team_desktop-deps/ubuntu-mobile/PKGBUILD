@@ -1,0 +1,27 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+
+_ubuntu_ver=0.0.9~raring1
+
+pkgname=ubuntu-mobile
+pkgver=${_ubuntu_ver/\~/.}
+pkgrel=1
+pkgdesc="Ubuntu Mobile Icon Theme"
+arch=('any')
+url="https://launchpad.net/~phablet-team/+archive/desktop-deps/+packages"
+license=('GPL')
+groups=('unitynext')
+depends=('hicolor-icon-theme')
+makedepends=('cmake')
+source=("https://launchpad.net/~phablet-team/+archive/desktop-deps/+files/ubuntu-mobile_${_ubuntu_ver}.tar.gz")
+sha512sums=('3874968cb06566261de12f34e168ffd3a8ad95b5245d070144f9e5f6e6a399cc51e041fbc7fc168b65e1d6c4df42dd3534aa264448cc96a48bf4cdd2068a5c5f')
+
+build() {
+  cd "${srcdir}/${pkgname}-${_ubuntu_ver}"
+  cmake . -DCMAKE_INSTALL_PREFIX=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${_ubuntu_ver}"
+  make DESTDIR="${pkgdir}/" install
+}
