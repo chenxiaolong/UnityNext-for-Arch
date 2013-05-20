@@ -1,0 +1,63 @@
+# Maintainer: Your Name <youremail@domain.com>
+
+pkgbase=ubuntu-touch-meta
+#pkgname=('ubuntu-sdk' 'ubuntu-touch')
+pkgname=('ubuntu-sdk')
+pkgver=1.008
+pkgrel=1
+pkgdesc="Metapackage for installing the Ubuntu SDK and Ubuntu Touch"
+arch=('i686' 'x86_64')
+url="https://launchpad.net/ubuntu/+source/ubuntu-touch-meta"
+license=('GPL')
+groups=('unitynext')
+
+package_ubuntu-sdk() {
+  pkgdesc="Metapackage for installing the Ubuntu SDK"
+  depends=('qt5-base'
+           'qt5-declarative'
+           'qt5-graphicaleffects'
+           'qt5-jsbackend'
+           'qt5-multimedia'
+           'qt5-script'
+           'qt5-svg'
+           'qt5-tools'
+           'qt5-webkit'
+           'qt5-xmlpatterns'
+           'qtcreator-ubuntu'
+           'ubuntu-ui-toolkit')
+  # From git
+  depends+=('qt5-3d-git'
+            'qt5-location-git'
+            'qt5-sensors-git')
+}
+
+package_ubuntu-touch() {
+  pkgdesc="Metapackage for installing Ubuntu Touch (or *Arch Linux* Touch)"
+  # '###' = unpackaged
+  depends=('account-plugins'
+           'alsa-utils'
+           'bluez'
+           'ca-certificates'
+           'dbus'
+           'friends' ###
+           'friends-facebook' ###
+           'friends-twitter' ###
+           'hud'
+           'indicator-messages'
+           'maliit-framework' ###
+           'maliit-keyboard' ###
+           'nano'
+           'network-manager'
+           'python-distribute' # Why?
+           'python-gobject'
+           'python-oauthlib'
+           'signon-plugin-oauth2'
+           'telepathy-gabble'
+           'ttf-dejavu'
+           'ttf-freefont'
+           'ttf-ubuntu-font-family'
+           'ubuntu-mobile-icons' ###
+           'ubuntu-ui-toolkit'
+           'unity-lens-applications'
+           'wireless_tools')
+}
