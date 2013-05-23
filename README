@@ -19,6 +19,7 @@ Install the packages
 * mesa-mir
 * gflags
 * liburcu
+* lttng-ust
 * mir-bzr
 * glmark2-mir-bzr
 * runbench-bzr
