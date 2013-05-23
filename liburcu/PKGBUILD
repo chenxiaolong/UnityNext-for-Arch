@@ -1,0 +1,31 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+
+pkgname=liburcu
+pkgver=0.7.6
+pkgrel=100
+pkgdesc="Userspace RCU (read-copy-update) library"
+arch=('i686' 'x86_64')
+url="http://lttng.org/urcu"
+license=('LGPL')
+groups=('unitynext')
+options=('!libtool')
+source=("http://lttng.org/files/urcu/userspace-rcu-${pkgver}.tar.bz2")
+sha512sums=('b6bdb512fed79a47205c16311b5d2a70e9133a486c0b9754f3ce54c2b4980b70c5a51abdc268e41b1f1d990f825a9995993ff5412e58374b96f2490fc0baad91')
+
+build() {
+  cd "${srcdir}/userspace-rcu-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${srcdir}/userspace-rcu-${pkgver}"
+  # Tests take an extremely long time to complete (upwards of 45 minutes on an
+  # average system)
+  #make check
+}
+
+package() {
+  cd "${srcdir}/userspace-rcu-${pkgver}"
+  make DESTDIR="${pkgdir}/" install
+}
