@@ -15,7 +15,7 @@ url="https://launchpad.net/mir"
 license=('GPL' 'LGPL')
 groups=('unitynext')
 
-depends=('boost' `# Maybe gcc4.6`)
+depends=('boost' 'liburcu')
 # At the moment, Mir does require Mesa's libGL
 depends+=('glm' 'mesa-libgl' 'mesa')
 
