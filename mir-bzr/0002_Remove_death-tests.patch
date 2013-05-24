@@ -1,0 +1,9 @@
+--- tests/CMakeLists.txt
++++ tests/CMakeLists.txt
+@@ -35,6 +35,5 @@
+ add_subdirectory(draw/)
+ add_subdirectory(client-language/)
+ add_subdirectory(behavior-tests/)
+-add_subdirectory(death-tests/)
+ 
+ mir_add_memcheck_test()
