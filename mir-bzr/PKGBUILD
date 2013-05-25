@@ -80,7 +80,7 @@ build() {
     cmake . ${COMMON_PARAMS[@]}
   fi
 
-  make
+  make -j1
 }
 
 check() {
