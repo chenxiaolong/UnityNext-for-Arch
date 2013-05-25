@@ -7,7 +7,7 @@ mobile_arch=()
 pkgname=mir-bzr
 pkgver=702
 _real_ver=0.0.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Ubuntu's new display server"
 arch=(${desktop_arch[@]} ${mobile_arch[@]})
 url="https://launchpad.net/mir"
@@ -15,7 +15,7 @@ url="https://launchpad.net/mir"
 license=('GPL' 'LGPL')
 groups=('unitynext')
 
-depends=('boost' 'liburcu' 'lttng-ust-old')
+depends=('boost' 'gflags' 'google-glog' 'liburcu' 'lttng-ust-old' 'libxkbcommon' 'protobuf')
 # At the moment, Mir does require Mesa's libGL
 depends+=('glm' 'mesa-libgl' 'mesa')
 
@@ -27,7 +27,7 @@ if grep -q ${CARCH} <<< ${mobile_arch[@]}; then
   depends+=('libhybris')
 fi
 
-makedepends=('bzr' 'cmake' 'doxygen' 'gflags' 'google-glog' 'graphviz' 'libxkbcommon' 'libxslt' 'protobuf')
+makedepends=('bzr' 'cmake' 'doxygen' 'graphviz' 'libxslt')
 
 # Provide Ubuntu's library names
 provides=("libmirprotobuf=${_real_ver}"     # Protocol shared library
