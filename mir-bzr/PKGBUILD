@@ -58,7 +58,7 @@ prepare() {
 
   patch -p0 -i "${srcdir}/0001_No_documentation.patch"
   # Causes build to fail on Jenkins (probably the VM running out of memory)
-  patch -p0 -i "${srcdir}/0002_Remove_death-tests.patch"
+  #patch -p0 -i "${srcdir}/0002_Remove_death-tests.patch"
 }
 
 build() {
