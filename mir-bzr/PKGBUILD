@@ -43,12 +43,10 @@ conflicts=('libmirprotobuf'
 
 source=('mir::bzr+http://bazaar.launchpad.net/~mir-team/mir/trunk/'
         '0001_No_documentation.patch'
-        '0002_Remove_death-tests.patch'
-        '0003_Remove_mir_discover_gtest_tests.patch')
+        '0002_Remove_death-tests.patch')
 sha512sums=('SKIP'
             'ef313ff807c6e7134a1f541195fc1cedf969fc22ba2f1220eaa9dc824d3ff934aa88fac1c2a1956f58659d3323b491867cf245c6eba874552eea31c5e3ed2ce7'
-            '025849496593b80f204962273bf99dc15e3f886f20dc5a4e6229e75a5473fa9e300b63a2e57bece38ec8a857c9321cf9bb712b69c378a62406692aae4780e6d1'
-            '6b0d6dbd14eb5e397d548574045bbc0525bfdbb3969cdf5fdfa64ac6903f4aea807d8c93f9d357a676a083925d5dab66c7b7b88c942889a9aad01d3a7b4a4e26')
+            '025849496593b80f204962273bf99dc15e3f886f20dc5a4e6229e75a5473fa9e300b63a2e57bece38ec8a857c9321cf9bb712b69c378a62406692aae4780e6d1')
 
 pkgver() {
   cd mir
@@ -61,7 +59,6 @@ prepare() {
   patch -p0 -i "${srcdir}/0001_No_documentation.patch"
   # Causes build to fail on Jenkins for some reason
   #patch -p0 -i "${srcdir}/0002_Remove_death-tests.patch"
-  patch -p0 -i "${srcdir}/0003_Remove_mir_discover_gtest_tests.patch"
 }
 
 build() {
@@ -71,6 +68,7 @@ build() {
                  '-DCMAKE_CXX_COMPILER=g++'
                  '-DCMAKE_INSTALL_PREFIX=/usr'
                  '-DMIR_DISABLE_EPOLL_REACTOR=YES'
+                 '-DDISABLE_GTEST_TEST_DISCOVERY=YES' # Otherwise FTB in Jenkins
                  `# Failing to build '-DBUILD_DOXYGEN=YES'`)
   
   if grep -q ${CARCH} <<< ${mobile_arch[@]}; then
