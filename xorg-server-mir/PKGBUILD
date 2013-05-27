@@ -18,7 +18,7 @@ pkgbase=xorg-server-mir
               'xorg-server-devel-mir')
 pkgver=1.13.3
 _ubuntu_rel=0ubuntu9+xmir1~raring1
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
