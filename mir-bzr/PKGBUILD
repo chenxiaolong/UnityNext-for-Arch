@@ -43,10 +43,12 @@ conflicts=('libmirprotobuf'
 
 source=('mir::bzr+http://bazaar.launchpad.net/~mir-team/mir/trunk/'
         '0001_No_documentation.patch'
-        '0002_Remove_death-tests.patch')
+        '0002_Remove_death-tests.patch'
+        '0003_Build_Fixes.patch')
 sha512sums=('SKIP'
             'ef313ff807c6e7134a1f541195fc1cedf969fc22ba2f1220eaa9dc824d3ff934aa88fac1c2a1956f58659d3323b491867cf245c6eba874552eea31c5e3ed2ce7'
-            '025849496593b80f204962273bf99dc15e3f886f20dc5a4e6229e75a5473fa9e300b63a2e57bece38ec8a857c9321cf9bb712b69c378a62406692aae4780e6d1')
+            '025849496593b80f204962273bf99dc15e3f886f20dc5a4e6229e75a5473fa9e300b63a2e57bece38ec8a857c9321cf9bb712b69c378a62406692aae4780e6d1'
+            '905770069922e47c74c1bf9e33ce2c0a1bc70ac3c6d74e8168bb53c1b8aa55214e9f13606b8a29856bb507a75830f888e75190396be4f31e0933f9c7613fc519')
 
 pkgver() {
   cd mir
@@ -59,6 +61,7 @@ prepare() {
   patch -p0 -i "${srcdir}/0001_No_documentation.patch"
   # Causes build to fail on Jenkins for some reason
   #patch -p0 -i "${srcdir}/0002_Remove_death-tests.patch"
+  patch -p0 -i "${srcdir}/0003_Build_Fixes.patch"
 }
 
 build() {

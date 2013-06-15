@@ -1,0 +1,12 @@
+=== modified file 'src/client/lttng/rpc_report_tp.h'
+--- src/client/lttng/rpc_report_tp.h	2013-06-03 12:15:45 +0000
++++ src/client/lttng/rpc_report_tp.h	2013-06-15 02:06:39 +0000
+@@ -25,6 +25,7 @@
+ #if !defined(MIR_CLIENT_LTTNG_RPC_REPORT_TP_H_) || defined(TRACEPOINT_HEADER_MULTI_READ)
+ #define MIR_CLIENT_LTTNG_RPC_REPORT_TP_H_
+ 
++#include <stdint.h>
+ #include <lttng/tracepoint.h>
+ 
+ TRACEPOINT_EVENT(
+
