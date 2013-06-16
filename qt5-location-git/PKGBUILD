@@ -2,6 +2,7 @@
 # Original Maintainer: Sergio Correia <sergio.correia@uece.net>
 
 pkgname=qt5-location-git
+epoch=1
 pkgver=1315.781b580
 pkgrel=1
 pkgdesc="A cross-platform application and UI framework (QtLocation)"
