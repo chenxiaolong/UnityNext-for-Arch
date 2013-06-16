@@ -18,6 +18,7 @@ depends=('libgcrypt' 'libxcb' 'libxdmcp' 'libxklavier' 'mir-bzr' 'unity-system-c
 # Useful dependencies, but not required
 #depends=('gnome-themes-standard' 'gnome-backgrounds' 'gnome-icon-theme' 'webkitgtk3')
 makedepends=('gnome-common' 'gobject-introspection' 'gtk-doc' 'gtk3' 'intltool' 'qt4' 'qt5-base' 'yelp-tools')
+makedepends+=('bzr')
 optdepends=('accountsservice: DBus interface for querying user information'
             'gnome-keyring: For pam_gnome_keyring.so in the greeter PAM config'
             'gtk3: For using the GTK greeter'
