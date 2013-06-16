@@ -2,6 +2,7 @@
 # Original Maintainer: Sergio Correia <sergio.correia@uece.net>
 
 pkgname=qt5-sensors-git
+epoch=1
 pkgver=496.cd3e9de
 pkgrel=1
 pkgdesc="A cross-platform application and UI framework (QtSensors)"
