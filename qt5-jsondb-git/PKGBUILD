@@ -3,6 +3,7 @@
 # Contributor: Anselmo L. S. Melo <anselmolsm@gmail.com>
 
 pkgname=qt5-jsondb-git
+epoch=1
 pkgver=959.27a2b5d
 pkgrel=1
 pkgdesc="A cross-platform application and UI framework (QtJsonDb)"
