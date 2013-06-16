@@ -3,7 +3,7 @@
 
 pkgname=qt5-3d-git
 epoch=1
-pkgver=731.0158ce7
+pkgver=737.6ed20e1
 pkgrel=1
 pkgdesc="A cross-platform application and UI framework (QtV8)"
 groups=('unitynext')
