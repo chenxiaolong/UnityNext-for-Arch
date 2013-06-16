@@ -3,7 +3,7 @@
 
 pkgname=qt5-location-git
 epoch=1
-pkgver=1315.781b580
+pkgver=1321.aa337de
 pkgrel=1
 pkgdesc="A cross-platform application and UI framework (QtLocation)"
 groups=('unitynext')
