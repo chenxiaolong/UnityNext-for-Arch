@@ -3,7 +3,7 @@
 
 pkgname=qt5-sensors-git
 epoch=1
-pkgver=510.5ae30e1
+pkgver=512.9cc3a31
 pkgrel=1
 pkgdesc="A cross-platform application and UI framework (QtSensors)"
 groups=('unitynext')
