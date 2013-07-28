@@ -28,6 +28,7 @@ if grep -q ${CARCH} <<< ${mobile_arch[@]}; then
 fi
 
 makedepends=('bzr' 'cmake' 'doxygen' 'graphviz' 'libxslt')
+checkdepends=('gmock-ubuntu')
 
 # Provide Ubuntu's library names
 provides=("libmirprotobuf=${_real_ver}"     # Protocol shared library
