@@ -29,7 +29,6 @@ Install the packages
 * tslib
 * sdl2-mir
 * unity-system-compositor-bzr
-* lightdm-mir-bzr
 
 * qt5-3d-git
 * qt5-jsondb-git
