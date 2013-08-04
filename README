@@ -5,12 +5,13 @@ Install the packages
 * gflags
 * liburcu
 * lttng-ust
+* umockdev
 * mir-bzr
 * mesa-mir
 * glmark2-mir-bzr
 * runbench-bzr
 * xorg-server-mir
-* xf86-video-intel-mir-bzr
+* xf86-video-intel-mir
 * xf86-video-nouveau-mir-bzr
 * tslib
 * sdl2-mir
