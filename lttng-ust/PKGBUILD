@@ -4,7 +4,7 @@
 
 pkgname=lttng-ust-old
 pkgver=2.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Userspace tracing library for LTTng"
 arch=('i686' 'x86_64')
 url="http://lttng.org/"
