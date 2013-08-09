@@ -5,9 +5,9 @@
 # Based on Arch Linux commit: e30a13afc86bf08317ed8188cf1ef717c3be4745
 
 pkgname=xf86-video-nouveau-mir
-_ubuntu_rel=0ubuntu2
+_ubuntu_rel=0ubuntu3
 pkgver=1.0.8
-pkgrel=1
+pkgrel=2
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
@@ -25,7 +25,7 @@ source=("xf86-video-nouveau::bzr+http://bazaar.launchpad.net/~mir-team/mir/xf86-
 source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-nouveau-${pkgver}.tar.bz2"
         "https://launchpad.net/ubuntu/+archive/primary/+files/xserver-xorg-video-nouveau_${pkgver}-${_ubuntu_rel}.diff.gz")
 sha512sums=('9eef0e697df83cb37fdd041b6d69b1ffeb47de6503edadbc3e311efbf47155461124722100288a7c7eb8b49c8b64d4e06fc848ee8975d39da962886ad90b7ce8'
-            'b2a6bafecf4eb2fd2406f371b3e0ac3d60daa90f27ae7b774b4c9fd4708b76d9781ca20f1143d2ec2be0b97471a07b6579a7a2a8227b5764f8538274f206975e')
+            '480c4df6d80861e21d9a3865468779117a8ab5955a53ef69c112572c66a3b121f55f1ae57b16b765067aa772ddf54554b069c4ef65b2fbe04ab531e17b203032')
 
 prepare() {
   cd "${srcdir}/xf86-video-nouveau-${pkgver}"
