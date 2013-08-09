@@ -1,0 +1,30 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+
+pkgname=umockdev
+pkgver=0.4.2
+pkgrel=1
+pkgdesc="Record/mock hardware devices for bug reports and regression tests"
+arch=('i686' 'x86_64')
+url="https://github.com/martinpitt/umockdev/"
+license=('LGPL')
+groups=('unitynext')
+depends=('systemd' 'xf86-video-dummy' 'xf86-input-evdev' 'xf86-input-synaptics' 'xorg-xinput')
+makedepends=('gobject-introspection' 'gtk-doc' 'vala')
+source=("https://launchpad.net/umockdev/trunk/${pkgver}/+download/umockdev-${pkgver}.tar.xz")
+sha512sums=('119b86c9f7fc3d3ae6d81cc7e2a0edcbe11ebe5b06603ad3658e9d1181361b2eb33eebd1ec578d88abbbf38d3612d62c11126f07bb8d9c1caeee03ff78009292')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --enable-gtk-doc --enable-introspection
+  make
+}
+
+check() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make check || true
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}/" install
+}
