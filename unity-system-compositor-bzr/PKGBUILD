@@ -1,7 +1,7 @@
 # Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 
 pkgname=unity-system-compositor-bzr
-pkgver=38
+pkgver=39
 pkgrel=1
 pkgdesc="System compositor for Ubuntu"
 arch=('i686' 'x86_64')
@@ -29,4 +29,13 @@ build() {
 package() {
   cd "${srcdir}/unity-system-compositor"
   make DESTDIR="${pkgdir}/" install
+
+  mv "${pkgdir}"/usr/{sbin,bin}/
+
+  install -dm755 "${pkgdir}/etc/lightdm/lightdm.conf.d/"
+  install -m644 debian/10-unity-system-compositor.conf \
+                "${pkgdir}/etc/lightdm/lightdm.conf.d/"
+
+  install -m755 debian/unity-system-compositor.sleep "${pkgdir}/usr/bin/"
+  sed -i 's/sbin/bin/g' "${pkgdir}/usr/bin/unity-system-compositor.sleep"
 }
