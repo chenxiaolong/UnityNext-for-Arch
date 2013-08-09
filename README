@@ -12,7 +12,7 @@ Install the packages
 * runbench-bzr
 * xorg-server-mir
 * xf86-video-intel-mir
-* xf86-video-nouveau-mir-bzr
+* xf86-video-nouveau-mir
 * tslib
 * sdl2-mir
 * unity-system-compositor-bzr
