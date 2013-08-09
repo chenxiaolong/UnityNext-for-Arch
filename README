@@ -5,20 +5,18 @@ Install the packages
 * gflags
 * liburcu
 * lttng-ust
+* umockdev
 * mir-bzr
 * mesa-mir
 * glmark2-mir-bzr
 * runbench-bzr
 * xorg-server-mir
-* xf86-video-intel-mir-bzr
-* xf86-video-nouveau-mir-bzr
+* xf86-video-intel-mir
+* xf86-video-nouveau-mir
 * tslib
 * sdl2-mir
 * unity-system-compositor-bzr
 
-* qt5-3d-git
-* qt5-jsondb-git
-* qt5-location-git
 * qtcreator-ubuntu
 * ubuntu-ui-toolkit
 * ubuntu-touch-meta
