@@ -17,7 +17,7 @@ true && pkgname=('ati-dri-mir' 'intel-dri-mir' 'nouveau-dri-mir' 'svga-dri-mir' 
 pkgver=9.1.4
 _ubuntu_rel=0ubuntu8
 
-pkgrel=3
+pkgrel=4
 
 # (... 'llvm-amdgpu-snapshot')
 makedepends=('python2' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'libxxf86vm' 'libxdamage' 'libvdpau' 'wayland' 'llvm-amdgpu-snapshot' 'systemd')
