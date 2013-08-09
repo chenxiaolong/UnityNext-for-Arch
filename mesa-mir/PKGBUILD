@@ -15,9 +15,9 @@ pkgdesc="Mesa with Mir support"
 true && pkgname=('ati-dri-mir' 'intel-dri-mir' 'nouveau-dri-mir' 'svga-dri-mir' 'mesa-mir' 'mesa-libgl-mir')
 
 pkgver=9.1.4
-_ubuntu_rel=0ubuntu6
+_ubuntu_rel=0ubuntu8
 
-pkgrel=1
+pkgrel=2
 
 # (... 'llvm-amdgpu-snapshot')
 makedepends=('python2' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'libxxf86vm' 'libxdamage' 'libvdpau' 'wayland' 'llvm-amdgpu-snapshot' 'systemd')
@@ -31,7 +31,7 @@ source=("ftp://ftp.freedesktop.org/pub/mesa/${pkgver}/MesaLib-${pkgver}.tar.bz2"
         "https://launchpad.net/ubuntu/+archive/primary/+files/mesa_${pkgver}-${_ubuntu_rel}.diff.gz"
         'LICENSE')
 sha512sums=('b9da2b2b3a5544b5e181f3bcdcb73b78fe692fbe9dd0a8e04e3bd6741205e54c43dd4c76f495496edc6c5f0b72e05449cda491607c18689ad2dd0adf0cec31b4'
-            '4bf5df737273e85eccbc98b3df49b8963b5ab9ea8c608ededea038ce9fc9c1fd440d2e2723a2beb6d33151f621a9bcdfb859328983500a288ecfd4e36d2599f4'
+            '3d2bda41d62597df97dd5dc0bb317b9760643c05d514264723d47caff6faacd4ea5022981d6944c576a7e5e1a7aa63030ab1ec2b9143e0ac7a2db84a78a3fe45'
             '25da77914dded10c1f432ebcbf29941124138824ceecaf1367b3deedafaecabc082d463abcfa3d15abff59f177491472b505bcb5ba0c4a51bb6b93b4721a23c2')
 
 build() {
