@@ -1,0 +1,50 @@
+# Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+# Original Maintainer: Andreas Radke <andyrtr@archlinux.org>
+# Contributor: buddabrod <buddabrod@gmail.com>
+
+# Based on Arch Linux commit: e30a13afc86bf08317ed8188cf1ef717c3be4745
+
+pkgname=xf86-video-nouveau-mir
+_ubuntu_rel=0ubuntu3
+pkgver=1.0.8
+pkgrel=2
+pkgdesc="Open Source 2D acceleration driver for nVidia cards"
+arch=('i686' 'x86_64')
+url="http://nouveau.freedesktop.org/"
+license=('GPL')
+depends=('libdrm' 'udev' 'nouveau-dri-mir')
+makedepends=('xorg-server-devel-mir' 'X-ABI-VIDEODRV_VERSION=14' 'resourceproto' 'scrnsaverproto')
+makedepends+=('xorg-server-mir')
+conflicts=('xorg-server<1.14.0' 'X-ABI-VIDEODRV_VERSION<14' 'X-ABI-VIDEODRV_VERSION>=15')
+provides+=("xf86-video-nouveau=${pkgver}")
+conflicts+=('xf86-video-nouveau')
+groups=('xorg-drivers' 'xorg')
+options=('!libtool')
+install=xf86-video-nouveau.install
+source=("xf86-video-nouveau::bzr+http://bazaar.launchpad.net/~mir-team/mir/xf86-video-nouveau/")
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-nouveau-${pkgver}.tar.bz2"
+        "https://launchpad.net/ubuntu/+archive/primary/+files/xserver-xorg-video-nouveau_${pkgver}-${_ubuntu_rel}.diff.gz")
+sha512sums=('9eef0e697df83cb37fdd041b6d69b1ffeb47de6503edadbc3e311efbf47155461124722100288a7c7eb8b49c8b64d4e06fc848ee8975d39da962886ad90b7ce8'
+            '480c4df6d80861e21d9a3865468779117a8ab5955a53ef69c112572c66a3b121f55f1ae57b16b765067aa772ddf54554b069c4ef65b2fbe04ab531e17b203032')
+
+prepare() {
+  cd "${srcdir}/xf86-video-nouveau-${pkgver}"
+
+  # Apply Ubuntu's patches
+  patch -p1 -i "${srcdir}/xserver-xorg-video-nouveau_${pkgver}-${_ubuntu_rel}.diff"
+  for i in $(grep -v '#' debian/patches/series); do
+    patch -p1 -i "debian/patches/${i}"
+  done
+}
+
+build() {
+  cd "${srcdir}/xf86-video-nouveau-${pkgver}"
+  autoreconf -vfi
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/xf86-video-nouveau-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
