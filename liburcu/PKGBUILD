@@ -2,7 +2,7 @@
 
 pkgname=liburcu
 pkgver=0.7.6
-pkgrel=100
+pkgrel=101
 pkgdesc="Userspace RCU (read-copy-update) library"
 arch=('i686' 'x86_64')
 url="http://lttng.org/urcu"
