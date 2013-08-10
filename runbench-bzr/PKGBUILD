@@ -2,7 +2,7 @@
 
 pkgname=runbench-bzr
 pkgver=30
-pkgrel=1
+pkgrel=2
 pkgdesc="Run GLMark2 against the Mir server"
 arch=('any')
 url="http://ppa.launchpad.net/mir-team/staging/ubuntu/pool/main/r/runbench/"
