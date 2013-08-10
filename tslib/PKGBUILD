@@ -3,7 +3,7 @@
 
 pkgname=tslib
 pkgver=1.0
-pkgrel=101
+pkgrel=102
 pkgdesc="tslib TouchScreen Library"
 arch=('arm' 'i686' 'x86_64')
 license=('custom')
