@@ -14,7 +14,7 @@ url="http://xorg.freedesktop.org/"
 license=('custom')
 groups=('xorg-drivers' 'xorg')
 depends=('intel-dri-mir' 'libxvmc' 'xcb-util>=0.3.9' 'systemd')
-makedepends=('xorg-server-devel-mir' 'X-ABI-VIDEODRV_VERSION=14' 'resourceproto' 'scrnsaverproto' 'libx11' 'libxrender')
+makedepends=('xorg-server-mir' 'xorg-server-devel-mir' 'X-ABI-VIDEODRV_VERSION=14' 'resourceproto' 'scrnsaverproto' 'libx11' 'libxrender')
 makedepends+=('xorg-server-mir')
 replaces=('xf86-video-intel-uxa' 'xf86-video-intel-sna')
 provides=('xf86-video-intel-uxa' 'xf86-video-intel-sna')
