@@ -27,7 +27,7 @@ if grep -q ${CARCH} <<< ${mobile_arch[@]}; then
   depends+=('libhybris')
 fi
 
-makedepends=('bzr' 'cmake' 'doxygen' 'graphviz' 'libxslt')
+makedepends=('bzr' 'cmake' 'doxygen' 'graphviz' 'libxslt' 'umockdev')
 checkdepends=('gmock-ubuntu')
 
 # Provide Ubuntu's library names
