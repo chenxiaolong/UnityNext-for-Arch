@@ -17,7 +17,7 @@ true && pkgname=('ati-dri-mir' 'intel-dri-mir' 'nouveau-dri-mir' 'svga-dri-mir' 
 pkgver=9.1.4
 _ubuntu_rel=0ubuntu8
 
-pkgrel=4
+pkgrel=5
 
 # (... 'llvm-amdgpu-snapshot')
 makedepends=('python2' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'libxxf86vm' 'libxdamage' 'libvdpau' 'wayland' 'llvm-amdgpu-snapshot' 'systemd')
@@ -79,7 +79,7 @@ build() {
 
 package_ati-dri-mir() {
   pkgdesc="Mesa drivers for AMD/ATI Radeon"
-  depends=("mesa-libgl-mir=${pkgver}")
+  depends=("mesa-libgl-mir")
   optdepends=('libtxc_dxtn: S3 Texture Compressed support')
   provides=("ati-dri=${pkgver}")
   conflicts=('xf86-video-ati<6.9.0-6' 'ati-dri')
@@ -99,7 +99,7 @@ package_ati-dri-mir() {
 
 package_intel-dri-mir() {
   pkgdesc="Mesa drivers for Intel"
-  depends=("mesa-libgl-mir=${pkgver}")
+  depends=("mesa-libgl-mir")
   optdepends=('libtxc_dxtn: S3 Texture Compressed support')
   provides=("intel-dri=${pkgver}")
   conflicts=('intel-dri')
@@ -113,7 +113,7 @@ package_intel-dri-mir() {
 
 package_nouveau-dri-mir() {
   pkgdesc="Mesa drivers for Nouveau"
-  depends=("mesa-libgl-mir=${pkgver}")
+  depends=("mesa-libgl-mir")
   optdepends=('libtxc_dxtn: S3 Texture Compressed support')
   provides=("nouveau-dri=${pkgver}")
   conflicts=('nouveau-dri')
@@ -171,7 +171,7 @@ package_mesa-mir() {
 
 package_mesa-libgl-mir() {
   pkgdesc="Mesa 3-D graphics library"
-  depends=("mesa-mir=${pkgver}")
+  depends=("mesa-mir")
   provides=("libgl=${pkgver}" "mesa-libgl=${pkgver}")
   replaces=('libgl' 'mesa-libgl')
   conflicts=('mesa-libgl')
