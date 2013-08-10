@@ -13,7 +13,8 @@ arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
 license=('GPL')
 depends=('libdrm' 'udev' 'nouveau-dri-mir')
-makedepends=('xorg-server-devel-mir' 'X-ABI-VIDEODRV_VERSION=14' 'resourceproto' 'scrnsaverproto')
+# pacman... X-ABI-VIDEODRV_VERSION=14
+makedepends=('xorg-server-devel-mir' 'resourceproto' 'scrnsaverproto')
 makedepends+=('xorg-server-mir')
 conflicts=('xorg-server<1.14.0' 'X-ABI-VIDEODRV_VERSION<14' 'X-ABI-VIDEODRV_VERSION>=15')
 provides+=("xf86-video-nouveau=${pkgver}")
