@@ -2,7 +2,7 @@
 
 pkgname=glmark2-mir-bzr
 pkgver=270
-pkgrel=1
+pkgrel=2
 pkgdesc="OpenGL (ES) 2.0 benchmark"
 arch=('i686' 'x86_64')
 # https://launchpad.net/glmark2
