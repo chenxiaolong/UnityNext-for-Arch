@@ -5,7 +5,7 @@ _dirname=libsdl2.0-2.0.0~20130103
 pkgname=sdl2-mir
 pkgver=2.0.0
 _ubuntu_rel=1ubuntu1+mir1
-pkgrel=2
+pkgrel=3
 pkgdesc="Simple DirectMedia Layer"
 arch=('i686' 'x86_64')
 # http://www.libsdl.org/
