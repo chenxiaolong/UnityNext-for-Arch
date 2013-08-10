@@ -7,7 +7,7 @@
 pkgname=xf86-video-nouveau-mir
 _ubuntu_rel=0ubuntu3
 pkgver=1.0.8
-pkgrel=2
+pkgrel=3
 pkgdesc="Open Source 2D acceleration driver for nVidia cards"
 arch=('i686' 'x86_64')
 url="http://nouveau.freedesktop.org/"
