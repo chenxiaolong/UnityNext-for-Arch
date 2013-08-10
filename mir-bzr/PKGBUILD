@@ -5,9 +5,9 @@ desktop_arch=('i686' 'x86_64')
 mobile_arch=()
 
 pkgname=mir-bzr
-pkgver=955
+pkgver=957
 _real_ver=0.0.3
-pkgrel=3
+pkgrel=1
 pkgdesc="Ubuntu's new display server"
 arch=(${desktop_arch[@]} ${mobile_arch[@]})
 url="https://launchpad.net/mir"
