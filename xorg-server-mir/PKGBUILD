@@ -16,9 +16,9 @@ pkgbase=xorg-server-mir
               'xorg-server-xnest-mir'
               'xorg-server-common-mir'
               'xorg-server-devel-mir')
-pkgver=1.14.2
-_ubuntu_rel=0ubuntu9
-pkgrel=4
+pkgver=1.14.2.901
+_ubuntu_rel=2ubuntu1
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('custom')
 url="http://xorg.freedesktop.org"
@@ -72,8 +72,8 @@ source=("${url}/releases/individual/xserver/xorg-server-${pkgver}.tar.bz2"
         'xvfb-run.1'
         '10-quirks.conf'
         'fb-rename-wfbDestroyGlyphCache.patch')
-sha512sums=('5a8caf61039b1605a85da9cba36ff525ccf9deda2f52be2b3f6360171d058b929a3a49e97db24b0587c4933009b2c479514f31d364eba54918a20a7e26a9060c'
-            '4f9ed2056941599fd845a773ee1afff7e450aa4e773e82fa2a785a461b457b7192033655dbf626052012a76a215272e002f7013c750f93c15a4e47ea9ffbf4c5'
+sha512sums=('765caa798924136efc5edbbcabf80cd9fa907df91ca556af1c2b81265f9ff87a312938243e2fc606343fbcc3d74193f58fe674e45cc7cca9e505358ecdccb2ec'
+            '1c1a99588abb3bfd12a2041dd5217f938818191cbf95cbcfe890ce45757551f55d1aefb1adbbd72a45443757833de46f5ef0479f702f4d9add693e1546ea1ca9'
             '4dcaa60fbfc61636e7220a24a72bba19984a6dc752061cb40b1bd566c0e614d08927b6c223ffaaaa05636765fddacdc3113fde55d25fd09cd0c786ff44f51447'
             '3211dbc6d8a84f3f6a77230a8e5fe13355b441768d864c2b3037b893be39f7b8d581c2a5db1e04f399ce19c4ced973b64eaad563d970ee9c7b8a93cb23a0aa18'
             '4ff7c764b9c5121de6e669928e8f8fab64098271b288c4c7c7a073d606000a724b46013a3224b961785a51a1e54903bcead42359d04c7dee7248a98f93f38952'
@@ -89,6 +89,10 @@ prepare() {
 
   # Apply Ubuntu's patches
   patch -p1 -i "${srcdir}/xorg-server_${pkgver}-${_ubuntu_rel}.diff"
+
+  # Disable patches
+    sed -i '/03_static-nettle.diff/d' debian/patches/series
+
   for i in $(grep -v '#' debian/patches/series); do
     msg "Applying ${i} ..."
     patch -p1 -i "debian/patches/${i}"
