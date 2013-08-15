@@ -5,9 +5,9 @@
 # Based on Arch Linux commit d03f5fb77df413017821f492aa81e5d68def7e48
 
 pkgname=xf86-video-intel-mir
-_ubuntu_rel=1ubuntu1
-pkgver=2.21.12
-pkgrel=2
+_ubuntu_rel=4ubuntu2
+pkgver=2.21.14
+pkgrel=1
 pkgdesc="X.org Intel i810/i830/i915/945G/G965+ video drivers"
 arch=('i686' 'x86_64')
 url="http://xorg.freedesktop.org/"
@@ -27,8 +27,8 @@ options=('!libtool')
 install=xf86-video-intel.install
 source=("${url}/archive/individual/driver/xf86-video-intel-${pkgver}.tar.bz2"
         "https://launchpad.net/ubuntu/+archive/primary/+files/xserver-xorg-video-intel_${pkgver}-${_ubuntu_rel}.diff.gz")
-sha512sums=('b75b9df28c4b0d5abfa46f19e05c8f23683e4a9ac8828c3de2e1046855f4022da4594076f9c168172d1b3fa2f040838c70668c410f2d5e0194d9a3ff12ff3bc0'
-            '9f77a20399a304b951d8b5e57ed538f4ce9022fb4be0a8745f8f1f8069f5ed9fa6afd185ce01843fc99f1563ce0894f0261ee1465ebb6a3c02fcbc9aa06a63c4')
+sha512sums=('34e7ecc5a99b6a0f711b154755c8dc5dabb56f04150ca7f02fd1a715347dd9cfc5851b2e3763c4e89b57f3e347975ed17630630e4e07efc690b2f314e6ab0f3a'
+            '0ee24484b03f8d4461fa7f94fe383271e73d46ace40f362ad31c8372af6ce648b525c328ab9dcde38529c11c3c417ff45ba877b8d73931551b229bc808b0b006')
 
 prepare() {
   cd "${srcdir}/xf86-video-intel-${pkgver}"
