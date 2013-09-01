@@ -101,13 +101,13 @@ package() {
 
   # Install examples
   install -dm755 "${pkgdir}"/usr/share/doc/mir/examples/
-  install -m644 examples/demo_client.c               \
-                examples/demo_client_accelerated.cpp \
-                examples/demo_client_unaccelerated.c \
-                examples/README                      \
-                examples/graphics.h                  \
-                examples/mir_image.h                 \
-                examples/graphics_utils.cpp          \
+  install -m644 examples/basic.c            \
+                examples/flicker.c          \
+                examples/graphics.h         \
+                examples/graphics_utils.cpp \
+                examples/mir_image.h        \
+                examples/scroll.cpp         \
+                examples/README             \
                 "${pkgdir}"/usr/share/doc/mir/examples/
 }
 
