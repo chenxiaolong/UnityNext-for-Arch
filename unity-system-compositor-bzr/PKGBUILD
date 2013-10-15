@@ -1,7 +1,7 @@
 # Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 
 pkgname=unity-system-compositor-bzr
-pkgver=89
+pkgver=90
 pkgrel=1
 pkgdesc="System compositor for Ubuntu"
 arch=('i686' 'x86_64')
