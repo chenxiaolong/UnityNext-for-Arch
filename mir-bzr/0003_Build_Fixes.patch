@@ -10,3 +10,14 @@
  
  TRACEPOINT_EVENT(
 
+=== modified file 'src/server/graphics/gbm/real_kms_output.cpp'
+--- src/server/graphics/gbm/real_kms_output.cpp 2013-09-25 07:51:32 +0000
++++ src/server/graphics/gbm/real_kms_output.cpp 2014-01-12 19:52:11 +0000
+@@ -22,6 +22,7 @@
+ #include <boost/throw_exception.hpp>
+ #include <boost/exception/info.hpp>
+ 
++#include <cstring>
+ #include <stdexcept>
+ #include <vector>
+ 
