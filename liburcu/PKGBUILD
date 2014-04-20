@@ -1,7 +1,7 @@
 # Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 
 pkgname=liburcu
-pkgver=0.7.7
+pkgver=0.7.12
 pkgrel=100
 pkgdesc="Userspace RCU (read-copy-update) library"
 arch=('i686' 'x86_64')
@@ -10,7 +10,7 @@ license=('LGPL')
 groups=('unitynext')
 options=('!libtool')
 source=("http://lttng.org/files/urcu/userspace-rcu-${pkgver}.tar.bz2")
-sha512sums=('6b9d1573d653deae3f3e182b51f6214c98efe9397751cb87e572301aac67d6ec75873921693619460be6f833bfe85eb8e9d6012618a8664dd12c8d97c52b5037')
+sha512sums=('2c53c62e23e668e797af7e7e4a1bbe1ab0408b3bbc94e43d40a845f4dccf05c90824154d0e7faef54f4dcbb4f80bf6c66b44e40f5b759ca7bdda33f937481fa2')
 
 build() {
   cd "${srcdir}/userspace-rcu-${pkgver}"
