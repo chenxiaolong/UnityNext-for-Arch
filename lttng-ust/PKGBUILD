@@ -3,8 +3,8 @@
 # Contributor: Manuel Mendez <mmendez534 at gmail dot com>
 
 pkgname=lttng-ust
-pkgver=2.3.0
-pkgrel=1
+pkgver=2.4.1
+pkgrel=100
 pkgdesc="Userspace tracing library for LTTng"
 arch=('i686' 'x86_64')
 url="http://lttng.org/"
@@ -14,7 +14,7 @@ optdepends=('babeltrace')
 options=('!libtool')
 install='lttng-ust.install'
 source=("http://lttng.org/files/lttng-ust/lttng-ust-${pkgver}.tar.bz2")
-sha512sums=('4706bee455e39130fe546cd832bea9e39ed23573c4a6d8c76fe0bd198af3ceb08f5929a27218577b736061a08698d034581a028543c02e7c82c60065787578cd')
+sha512sums=('fb6e46ad8b8a3d5bfdd0a1f7421c0eb713bf1cbb5f04c066dde7a7f2fde57bec976118cc8d51984b87959862faea5b87148fde440a04b7756de3cb2e89f0157c')
 
 build() {
   cd "${srcdir}/lttng-ust-${pkgver}"
