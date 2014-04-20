@@ -1,7 +1,7 @@
 # Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 
 pkgname=umockdev
-pkgver=0.5
+pkgver=0.8.1
 pkgrel=1
 pkgdesc="Record/mock hardware devices for bug reports and regression tests"
 arch=('i686' 'x86_64')
@@ -11,7 +11,7 @@ groups=('unitynext')
 depends=('systemd' 'xf86-video-dummy' 'xf86-input-evdev' 'xf86-input-synaptics' 'xorg-xinput')
 makedepends=('gobject-introspection' 'gtk-doc' 'vala')
 source=("https://launchpad.net/umockdev/trunk/${pkgver}/+download/umockdev-${pkgver}.tar.xz")
-sha512sums=('3fc06b337847a4db2ff1eb13f55adf758b00854c8e0ed0a25a111816fe77ee51256c503ae967d6401cbc353c33232cbf0738b6dfd1717c4c348aa54c6c4f4c9d')
+sha512sums=('c6e4962033e07e16f854d54faa37f5edd2f70f62f424353e32e33158bd0255d4bdc6d40ff39679f55ea266946a0d22f15a1b03178bed58b5271f0dc4311888d9')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
