@@ -2,27 +2,16 @@
 # Original Maintainer: Christian Hesse <mail@eworm.de>
 
 pkgname=tslib
-pkgver=1.0
-pkgrel=102
+pkgver=1.1
+pkgrel=100
 pkgdesc="tslib TouchScreen Library"
 arch=('arm' 'i686' 'x86_64')
 license=('custom')
-url="http://sourceforge.net/projects/tslib.berlios/"
-depends=('glibc')
-makedepends=('xorg-server')
-options=('!libtool')
+url="https://github.com/kergoth/tslib"
+depends=('xorg-server')
 groups=('xorg-drivers' 'xorg')
-source=("http://downloads.sourceforge.net/project/tslib.berlios/tslib-${pkgver}.tar.bz2"
-        'tslib-1.0-backport-O_CREAT.patch')
-sha512sums=('a12e569b1d9cd809776a605775c3000f4e405789d95eeda21451d3911b5aa67003c921d9988f5ea8eba8b32108c8b0816e6609b5f013a2594d27b6e00e75de8c'
-            '981c9e6c6e94ae0cec80bfac469ea645a26d8c302f6cfcc9d7f34c5dde5c3acdf1bad180943ff8f9fe8eaf6241afb1e5ea4988bb7add1113594344d205703044')
-
-prepare() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g' configure.ac
-  # From Fedora
-  patch -p2 -i "${srcdir}/tslib-1.0-backport-O_CREAT.patch"
-}
+source=("https://github.com/kergoth/tslib/releases/download/${pkgver}/tslib-${pkgver}.tar.xz")
+sha512sums=('5277fb40a9a6b42eaee7c4605bdd00eabdb07559f495f7c7412ffe83b21a34642789f387108e28a6b93b40bd03273085b0b23e95efec5740e5b382d6a1341587')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
