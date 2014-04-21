@@ -4,25 +4,26 @@ desktop_arch=('i686' 'x86_64')
 # Let me know what ARM architectures are compatible
 mobile_arch=()
 
-pkgname=mir-bzr
-pkgver=1102
-_real_ver=0.0.3
+pkgname=mir
+_actual_ver=0.1.8
+_extra_ver=+14.04.20140411
+pkgver=${_actual_ver}${_extra_ver}
 pkgrel=1
 pkgdesc="Ubuntu's new display server"
 arch=(${desktop_arch[@]} ${mobile_arch[@]})
 url="https://launchpad.net/mir"
-# Server is GPL, client is LGPL
-license=('GPL' 'LGPL')
+# Server is GPL, client is LGPL, various other files are BSD and Apache
+license=('GPL' 'LGPL' 'BSD' 'Apache')
 groups=('unitynext')
 
 depends=('boost' 'gflags' 'google-glog' 'liburcu' 'lttng-ust' 'libxkbcommon' 'protobuf')
 # At the moment, Mir does require Mesa's libGL
 depends+=('glm' 'mesa-libgl' 'mesa')
 
-if grep -q ${CARCH} <<< ${desktop_arch[@]}; then
+if grep -q "${CARCH}" <<< ${desktop_arch[@]}; then
   depends+=('libdrm')
 fi
-if grep -q ${CARCH} <<< ${mobile_arch[@]}; then
+if grep -q "${CARCH}" <<< ${mobile_arch[@]}; then
   # Currently unpackaged. Presumably, Ubuntu's fork will need to be used
   depends+=('libhybris')
 fi
@@ -30,66 +31,56 @@ fi
 makedepends=('bzr' 'cmake' 'doxygen' 'graphviz' 'libxslt' 'umockdev')
 
 # Provide Ubuntu's library names
-provides=("libmirprotobuf=${_real_ver}"     # Protocol shared library
-          "libmirserver=${_real_ver}"       # Server shared library
-          "libmirclient=${_real_ver}"       # Client shared library
-          "libmirclient-demos=${_real_ver}" # Example clients
-          "mir=${_real_ver}")               # Stable version of Mir
+provides=("libmirprotobuf=${_actual_ver}"     # Protocol shared library
+          "libmirserver=${_actual_ver}"       # Server shared library
+          "libmirclient=${_actual_ver}"       # Client shared library
+          "libmirclient-demos=${_actual_ver}" # Example clients
+          "mir=${_actual_ver}")               # Stable version of Mir
 conflicts=('libmirprotobuf'
            'libmirserver'
            'libmirclient'
            'libmirclient-demos'
            'mir')
 
-source=('mir::bzr+http://bazaar.launchpad.net/~mir-team/mir/trunk/'
+source=("https://launchpad.net/ubuntu/+archive/primary/+files/mir_${_actual_ver}${_extra_ver}.orig.tar.gz"
         '0001_No_documentation.patch'
-        '0002_Remove_death-tests.patch'
-        '0003_Build_Fixes.patch')
-sha512sums=('SKIP'
+        '0002_Build_Fixes.patch')
+sha512sums=('b11ce138c198cdac496ae4d314f03d624ffd948e9c96b9e5b14555e04c9424d0adc82c3fa55d83ae52126592165861645ba92d2ac96e4d8c475280216e6f6793'
             'ef313ff807c6e7134a1f541195fc1cedf969fc22ba2f1220eaa9dc824d3ff934aa88fac1c2a1956f58659d3323b491867cf245c6eba874552eea31c5e3ed2ce7'
-            '025849496593b80f204962273bf99dc15e3f886f20dc5a4e6229e75a5473fa9e300b63a2e57bece38ec8a857c9321cf9bb712b69c378a62406692aae4780e6d1'
-            '120cf5c624f74952b7114633727243fd84c18b3f4502aa51f8f6581525074631bd56c2811a8e3883da88861c14add5af3e1e3dd03e4912ed5890d0af91365551')
-
-pkgver() {
-  cd mir
-  bzr revno
-}
+            'f6aed69938107ca771eb305fbf0dd6b7a8a39299eb6787145521f5de5031af76ac416a43c0516b3a6904477323afb1241a25b9bef445b7e9c9d1d116e2d1a676')
 
 prepare() {
-  cd "${srcdir}/mir"
+  cd "${srcdir}/mir-${_actual_ver}${_extra_ver}"
 
   patch -p0 -i "${srcdir}/0001_No_documentation.patch"
-  # Causes build to fail on Jenkins for some reason
-  #patch -p0 -i "${srcdir}/0002_Remove_death-tests.patch"
-  patch -p0 -i "${srcdir}/0003_Build_Fixes.patch"
+  patch -p0 -i "${srcdir}/0002_Build_Fixes.patch"
 }
 
 build() {
-  cd "${srcdir}/mir"
+  cd "${srcdir}/mir-${_actual_ver}${_extra_ver}"
 
   COMMON_PARAMS=('-DCMAKE_C_COMPILER=gcc'
                  '-DCMAKE_CXX_COMPILER=g++'
                  '-DCMAKE_INSTALL_PREFIX=/usr'
+                 '-DCMAKE_INSTALL_LIBDIR=/usr/lib'
                  '-DMIR_DISABLE_EPOLL_REACTOR=YES'
                  '-DDISABLE_GTEST_TEST_DISCOVERY=YES' # Otherwise FTB in Jenkins
                  '-DMIR_ENABLE_TESTS=NO'
                  `# Failing to build '-DBUILD_DOXYGEN=YES'`)
   
   if grep -q ${CARCH} <<< ${mobile_arch[@]}; then
-    cmake . ${COMMON_PARAMS[@]}         \
-            -DBoost_COMPILER=-gcc       \
-            -DMIR_PLATFORM=android
+    cmake . ${COMMON_PARAMS[@]} -DMIR_PLATFORM='android;mesa'
   fi
 
   if grep -q ${CARCH} <<< ${desktop_arch[@]}; then
-    cmake . ${COMMON_PARAMS[@]}
+    cmake . ${COMMON_PARAMS[@]} -DMIR_PLATFORM='mesa'
   fi
 
   make
 }
 
 package() {
-  cd "${srcdir}/mir"
+  cd "${srcdir}/mir-${_actual_ver}${_extra_ver}"
   make DESTDIR="${pkgdir}/" install
 
   # Install examples
@@ -102,4 +93,18 @@ package() {
                 examples/scroll.cpp         \
                 examples/README             \
                 "${pkgdir}"/usr/share/doc/mir/examples/
+
+  platform_types="platformgraphics clientplatform"
+  platforms="mesa android"
+
+  install -dm755 "${pkgdir}"/etc/ld.so.conf.d/
+
+  for i in ${platform_types}; do
+    for j in ${platforms}; do
+      dir="/usr/lib/mir/${i}/${j}"
+      if [[ -d "${pkgdir}${dir}" ]]; then
+        echo "${dir}" >> "${pkgdir}"/etc/ld.so.conf.d/mir.conf
+      fi
+    done
+  done
 }

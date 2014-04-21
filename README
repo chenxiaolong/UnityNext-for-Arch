@@ -1,12 +1,10 @@
-Source code/PPA: https://launchpad.net/~mir-team/+archive/staging
-
 Install the packages
 
 * gflags
 * liburcu
 * lttng-ust
 * umockdev
-* mir-bzr
+* mir
 * mesa-mir
 * glmark2-mir-bzr
 * runbench-bzr
