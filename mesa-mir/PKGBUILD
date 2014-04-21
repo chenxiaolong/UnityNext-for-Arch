@@ -32,7 +32,7 @@ sha512sums=('a8c57e50c360f3d4ebc850de6b24b87175100cedcbb48ceace2b228f654d29ffa97
             '25da77914dded10c1f432ebcbf29941124138824ceecaf1367b3deedafaecabc082d463abcfa3d15abff59f177491472b505bcb5ba0c4a51bb6b93b4721a23c2')
 
 prepare() {
-  cd "${srcdir}/Mesa-${pkgver}"
+  cd ${srcdir}/?esa-*
 
   # Apply Ubuntu's patches
   patch -p1 -i "${srcdir}/mesa_${pkgver}-${_ubuntu_rel}.diff"
@@ -48,12 +48,11 @@ prepare() {
 }
 
 build() {
-  cd "${srcdir}/Mesa-${pkgver}"
+  cd ${srcdir}/?esa-*
 
   autoreconf -vfi # our automake is far too new for their build system :)
 
-  ./configure \
-    --prefix=/usr \
+  ./configure --prefix=/usr \
     --sysconfdir=/etc \
     --with-dri-driverdir=/usr/lib/xorg/modules/dri \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast \
@@ -75,12 +74,13 @@ build() {
     --enable-xa \
     --enable-vdpau \
     --enable-dri3
+    # --help
 
   make
 
   # fake installation
-  install -dm755  "${srcdir}/fakeinstall/"
-  make DESTDIR="${srcdir}/fakeinstall/" install
+  mkdir $srcdir/fakeinstall
+  make DESTDIR=${srcdir}/fakeinstall install
 }
 
 package_ati-dri-mir() {
@@ -164,6 +164,7 @@ package_mesa-mir() {
   depends+=('mir')
 
   mv -v ${srcdir}/fakeinstall/* ${pkgdir}
+  install -m755 -d ${pkgdir}/usr/lib/mesa
   # move libgl/EGL/glesv*.so to not conflict with blobs - may break .pc files ?
   mv -v ${pkgdir}/usr/lib/libGL.so* 	${pkgdir}/usr/lib/mesa/
   mv -v ${pkgdir}/usr/lib/libEGL.so* 	${pkgdir}/usr/lib/mesa/
@@ -175,7 +176,7 @@ package_mesa-mir() {
 
 package_mesa-libgl-mir() {
   pkgdesc="Mesa 3-D graphics library"
-  depends=("mesa-mir")
+  depends=("mesa-mir=${pkgver}")
   provides=("libgl=${pkgver}" "mesa-libgl=${pkgver}")
   replaces=('libgl' 'mesa-libgl')
   conflicts=('mesa-libgl')
