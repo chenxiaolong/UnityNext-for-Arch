@@ -1,52 +1,56 @@
 # Maintainer: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 
-# Based on Arch Linux commit: d938f7c8e7adc1aad185b0313262e04ce3a82f38
+# Based on Arch Linux commit: f577dc3cfeadf595b1fab3c7656b95c78a8957ea
 
 pkgbase=mesa-mir
-# Stupid AUR
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 arch=('i686' 'x86_64')
 
+# gah, AUR parser...
 pkgname=mesa-mir
 pkgdesc="Mesa with Mir support"
 
-# Inline comments break the AUR parser... ('ati-dri-mir' ...)
-true && pkgname=('ati-dri-mir' 'intel-dri-mir' 'nouveau-dri-mir' 'svga-dri-mir' 'mesa-mir' 'mesa-libgl-mir')
+: && pkgname=('ati-dri-mir' 'intel-dri-mir' 'nouveau-dri-mir' 'svga-dri-mir' 'mesa-mir' 'mesa-libgl-mir')
 
-pkgver=9.1.6
-_ubuntu_rel=2ubuntu2
+pkgver=10.1.0
+_ubuntu_rel=4ubuntu5
 
 pkgrel=1
 
-# (... 'llvm-amdgpu-snapshot')
-makedepends=('python2' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'libxxf86vm' 'libxdamage' 'libvdpau' 'wayland' 'llvm-amdgpu-snapshot' 'systemd')
+makedepends=('python2' 'libxml2' 'libx11' 'glproto' 'libdrm' 'dri2proto' 'dri3proto' 'presentproto' 'libxshmfence' 'libxxf86vm' 'libxdamage' 'libvdpau' 'wayland' 'elfutils' 'llvm' 'systemd')
 # Requires Mir, of course (specifically, libmirclient)
-makedepends+=('mir-bzr')
+makedepends+=('mir')
 # For filterdiff
 makedepends+=('patchutils')
 
-options=('!libtool')
-source=("ftp://ftp.freedesktop.org/pub/mesa/${pkgver}/MesaLib-${pkgver}.tar.bz2"
+source=("ftp://ftp.freedesktop.org/pub/mesa/${pkgver%.*}/MesaLib-${pkgver}.tar.bz2"
         "https://launchpad.net/ubuntu/+archive/primary/+files/mesa_${pkgver}-${_ubuntu_rel}.diff.gz"
         'LICENSE')
-sha512sums=('b23d0cc3515b56636f73c4d3247212f8c731c967f5ecf8c247a3bd359038ed374c23eb1bb0da17a9152f8b8d984acd134fa9823d9349285287e58676419b4d40'
-            '2a84b5906250472c4f9eaa9da51e611d9b81f57e53832e434919fc824e5d3da49a87506408359ca33827866fc5f1b23a1d7165184800c6e83f691d1a2076df84'
+sha512sums=('a8c57e50c360f3d4ebc850de6b24b87175100cedcbb48ceace2b228f654d29ffa97ec24118ad8e0f281fee80750568fdb2f8b58866713424889c69387e3a6adb'
+            '9ed0e251ed7b6683895397b8bd5d932b374030e93a3c5720f4cb869b0e4fd6f82b5b86048955f30ce1b7860ef3bf7a57ce9ba754641a5ddcf6a8c62eda6f95f1'
             '25da77914dded10c1f432ebcbf29941124138824ceecaf1367b3deedafaecabc082d463abcfa3d15abff59f177491472b505bcb5ba0c4a51bb6b93b4721a23c2')
 
-build() {
+prepare() {
   cd "${srcdir}/Mesa-${pkgver}"
 
   # Apply Ubuntu's patches
   patch -p1 -i "${srcdir}/mesa_${pkgver}-${_ubuntu_rel}.diff"
-  #cat "${srcdir}/mesa_${_ubuntu_ver}-${_ubuntu_rel}.diff" | \
-  #  filterdiff --include="*/debian/*" | \
-  #  patch -p1
+
+  # Disable patches
+  sed -i '/117-static-gallium.patch/d' debian/patches/series
+  sed -i '/118-dricore-gallium.patch/d' debian/patches/series
+  sed -i '/120-hide-x86sse.patch/d' debian/patches/series
+
   for i in $(grep -v '#' debian/patches/series); do
     patch -p1 -i "debian/patches/${i}"
   done
+}
 
-  autoreconf -vfi
+build() {
+  cd "${srcdir}/Mesa-${pkgver}"
+
+  autoreconf -vfi # our automake is far too new for their build system :)
 
   ./configure \
     --prefix=/usr \
@@ -54,11 +58,11 @@ build() {
     --with-dri-driverdir=/usr/lib/xorg/modules/dri \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
+    --with-egl-platforms=x11,drm,wayland,mir \
     --with-llvm-shared-libs \
     --enable-gallium-llvm \
     --enable-egl \
     --enable-gallium-egl \
-    --with-egl-platforms=x11,drm,wayland,mir \
     --enable-shared-glapi \
     --enable-gbm \
     --enable-glx-tls \
@@ -69,23 +73,24 @@ build() {
     --enable-gles2 \
     --enable-texture-float \
     --enable-xa \
-    --enable-vdpau
+    --enable-vdpau \
+    --enable-dri3
 
   make
 
+  # fake installation
   install -dm755  "${srcdir}/fakeinstall/"
   make DESTDIR="${srcdir}/fakeinstall/" install
 }
 
 package_ati-dri-mir() {
   pkgdesc="Mesa drivers for AMD/ATI Radeon"
-  depends=("mesa-libgl-mir")
-  optdepends=('libtxc_dxtn: S3 Texture Compressed support')
+  depends=('mesa-libgl-mir' 'libtxc_dxtn' "mesa-mir=${pkgver}")
   provides=("ati-dri=${pkgver}")
   conflicts=('xf86-video-ati<6.9.0-6' 'ati-dri')
 
   install -m755 -d ${pkgdir}/usr/lib/vdpau/
-  mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r300,r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
+  mv -v ${srcdir}/fakeinstall/usr/lib/vdpau/libvdpau_{r600,radeonsi}.* ${pkgdir}/usr/lib/vdpau/
 
   install -m755 -d ${pkgdir}/usr/lib/xorg/modules/dri
   mv -v ${srcdir}/fakeinstall/usr/lib/xorg/modules/dri/{r200,r300,r600,radeon,radeonsi}_dri.so ${pkgdir}/usr/lib/xorg/modules/dri/
@@ -99,8 +104,7 @@ package_ati-dri-mir() {
 
 package_intel-dri-mir() {
   pkgdesc="Mesa drivers for Intel"
-  depends=("mesa-libgl-mir")
-  optdepends=('libtxc_dxtn: S3 Texture Compressed support')
+  depends=('mesa-libgl-mir' 'libtxc_dxtn' "mesa-mir=${pkgver}")
   provides=("intel-dri=${pkgver}")
   conflicts=('intel-dri')
 
@@ -113,8 +117,7 @@ package_intel-dri-mir() {
 
 package_nouveau-dri-mir() {
   pkgdesc="Mesa drivers for Nouveau"
-  depends=("mesa-libgl-mir")
-  optdepends=('libtxc_dxtn: S3 Texture Compressed support')
+  depends=('mesa-libgl-mir' 'libtxc_dxtn' "mesa-mir=${pkgver}")
   provides=("nouveau-dri=${pkgver}")
   conflicts=('nouveau-dri')
 
@@ -133,7 +136,7 @@ package_nouveau-dri-mir() {
 
 package_svga-dri-mir() {
   pkgdesc="Gallium3D VMware guest GL driver"
-  depends=('libdrm' 'expat' 'llvm-amdgpu-lib-snapshot')
+  depends=('libdrm' 'expat' 'llvm-libs')
   provides=("svga-dri=${pkgver}")
   conflicts=('svga-dri')
 
@@ -149,7 +152,7 @@ package_svga-dri-mir() {
 
 package_mesa-mir() {
   pkgdesc="an open-source implementation of the OpenGL specification"
-  depends=('libdrm' 'libvdpau' 'wayland' 'libxxf86vm' 'libxdamage' 'systemd')
+  depends=('libdrm' 'libvdpau' 'wayland' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'systemd' 'elfutils' 'llvm-libs')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
   provides=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
   conflicts=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
@@ -158,12 +161,13 @@ package_mesa-mir() {
   provides+=("mesa=${pkgver}")
   conflicts+=('mesa')
 
-  depends+=('mir-bzr')
+  depends+=('mir')
 
   mv -v ${srcdir}/fakeinstall/* ${pkgdir}
-  # rename libgl.so to not conflict with blobs - may break gl.pc ?
-  mv ${pkgdir}/usr/lib/libGL.so.1.2.0 	${pkgdir}/usr/lib/mesa-libGL.so.1.2.0
-  rm ${pkgdir}/usr/lib/libGL.so{,.1}
+  # move libgl/EGL/glesv*.so to not conflict with blobs - may break .pc files ?
+  mv -v ${pkgdir}/usr/lib/libGL.so* 	${pkgdir}/usr/lib/mesa/
+  mv -v ${pkgdir}/usr/lib/libEGL.so* 	${pkgdir}/usr/lib/mesa/
+  mv -v ${pkgdir}/usr/lib/libGLES*.so*	${pkgdir}/usr/lib/mesa/
 
   install -m755 -d "${pkgdir}/usr/share/licenses/mesa"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa/"
@@ -180,9 +184,21 @@ package_mesa-libgl-mir() {
   install -m755 -d "${pkgdir}/usr/lib/xorg/modules/extensions"
   ln -s libglx.xorg "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so"
 
-  ln -s mesa-libGL.so.1.2.0      ${pkgdir}/usr/lib/libGL.so
-  ln -s mesa-libGL.so.1.2.0      ${pkgdir}/usr/lib/libGL.so.1
-  ln -s mesa-libGL.so.1.2.0      ${pkgdir}/usr/lib/libGL.so.1.2.0
+  ln -s /usr/lib/mesa/libGL.so.1.2.0 ${pkgdir}/usr/lib/libGL.so.1.2.0
+  ln -s libGL.so.1.2.0	             ${pkgdir}/usr/lib/libGL.so.1
+  ln -s libGL.so.1.2.0               ${pkgdir}/usr/lib/libGL.so
+
+  ln -s /usr/lib/mesa/libEGL.so.1.0.0 ${pkgdir}/usr/lib/libEGL.so.1.0.0
+  ln -s libEGL.so.1.0.0	              ${pkgdir}/usr/lib/libEGL.so.1
+  ln -s libEGL.so.1.0.0               ${pkgdir}/usr/lib/libEGL.so
+
+  ln -s /usr/lib/mesa/libGLESv1_CM.so.1.1.0 ${pkgdir}/usr/lib/libGLESv1_CM.so.1.1.0
+  ln -s libGLESv1_CM.so.1.1.0	            ${pkgdir}/usr/lib/libGLESv1_CM.so.1
+  ln -s libGLESv1_CM.so.1.1.0               ${pkgdir}/usr/lib/libGLESv1_CM.so
+
+  ln -s /usr/lib/mesa/libGLESv2.so.2.0.0 ${pkgdir}/usr/lib/libGLESv2.so.2.0.0
+  ln -s libGLESv2.so.2.0.0               ${pkgdir}/usr/lib/libGLESv2.so.2
+  ln -s libGLESv2.so.2.0.0               ${pkgdir}/usr/lib/libGLESv2.so
 
   install -m755 -d "${pkgdir}/usr/share/licenses/mesa-libgl"
   install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa-libgl/"
