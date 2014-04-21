@@ -6,7 +6,6 @@ Install the packages
 * umockdev
 * mir
 * mesa-mir
-* runbench-bzr
 * xorg-server-mir
 * xf86-video-intel-mir
 * xf86-video-nouveau-mir
