@@ -1,6 +1,5 @@
 Install the packages
 
-* xorg-server-mir
 * xf86-video-intel-mir
 * xf86-video-nouveau-mir
 * tslib
