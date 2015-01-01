@@ -1,6 +1,5 @@
 Install the packages
 
-* mesa-mir
 * xorg-server-mir
 * xf86-video-intel-mir
 * xf86-video-nouveau-mir
