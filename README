@@ -1,6 +1,5 @@
 Install the packages
 
-* gflags
 * liburcu
 * lttng-ust
 * umockdev
