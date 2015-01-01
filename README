@@ -1,6 +1,5 @@
 Install the packages
 
-* liburcu
 * lttng-ust
 * umockdev
 * mir
