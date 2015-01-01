@@ -1,6 +1,5 @@
 Install the packages
 
-* umockdev
 * mir
 * mesa-mir
 * xorg-server-mir
